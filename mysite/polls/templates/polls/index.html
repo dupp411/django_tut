@@ -1,6 +1,8 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+<script src="{% static 'polls/javascript/app.js' %}"></script> 
 
+<p id="demo"></p>
 <h1>Question List:</h1>
 {%if latest_question_list%}
 <ul>
@@ -15,3 +17,12 @@
 {%else%}
 <p>No polls to display</p>
 {%endif%}
+
+<h2>Submit Question:</h2>
+<form action="{%url 'polls:add_question'%}" method="POST">
+    {%csrf_token%}
+    <input type="text" placeholder="Question" name="new_question" required id="new_question"/>
+    <br/>
+    <br/>
+<input type="submit" value="Submit"/>
+</form>

@@ -2,6 +2,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from .models import Question, Choice
 from django.urls import reverse
+from django.utils import timezone
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
@@ -38,3 +39,10 @@ def vote(request, question_id):
         selected_choice.votes += 1
         selected_choice.save()
         return HttpResponseRedirect(reverse('polls:results',args = (question.id,)))
+
+def add_question(request):
+    print('awe')
+    print(request.POST['new_question'])
+    new_question = Question(question_text=request.POST['new_question'], pub_date=timezone.now())
+    new_question.save()
+    return HttpResponseRedirect(reverse('polls:index'))
